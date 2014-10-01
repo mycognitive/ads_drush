@@ -9,6 +9,21 @@
  *  - Put each alias in a separate file called ALIASNAME.alias.drushrc.php
  *  - Put groups of aliases into files called GROUPNAME.aliases.drushrc.php
  *
+ * Drush will search for aliases in any of these files using
+ * the alias search path.  The following locations are examined
+ * for alias files:
+ *
+ *   1. In any path set in $options['alias-path'] in drushrc.php,
+ *      or (equivalently) any path passed in via --alias-path=...
+ *      on the command line.
+ *   2. In one of the default locations:
+ *        a. /etc/drush
+ *        b. $HOME/.drush
+ *        c. The /drush and /sites/all/drush folders for the current Drupal site
+ *   3. Inside the sites folder of any bootstrapped Drupal site,
+ *      or any local Drupal site indicated by an alias used as
+ *      a parameter to a command
+ *
  * See:
  *  http://drush.ws/docs/shellaliases.html
  *  $ drush topic docs-aliases
