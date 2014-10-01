@@ -31,58 +31,89 @@
  */
 
 /**
- * Alias for Development environment run on Drupal 7.
+ * Define global common options alias for all environments.
+ * To use it, add: 'parent' => '@global' to your alias.
  *
  */
-$aliases['global'] = array(
-    // 'ssh-options' => "-p 1022 -F %root/scripts/example/conf/ssh/config" . DRUPAL_ROOT,
-    'path-aliases' => array(
-      '%files'   => 'sites/default/files',
-      '%private' => 'sites/default/private/files',
-    ),
+$aliases['all'] = array(
 
-    // These options will only be set if the alias is used with the specified command.
-    'command-specific' => array(
-      'sql-sync' => array(
-        'cache' => TRUE,
-        'create-db' => TRUE,
-        'sanitize' => TRUE,
-        'ordered-dump' => FALSE,
-        'structure-tables-key' => 'common',
-        'skip-tables-key' => 'common',
-        'structure-tables' => array(
-          // You can add more tables which contain data to be ignored by the database dump
-          'common' => array('cache', 'cache_filter', 'cache_menu', 'cache_page', 'history', 'search_index', 'sessions', 'watchdog'),
-        ),
-        'skip-tables' => array(
-          'common' => array('field_deleted_revision_63', 'field_deleted_revision_62', 'field_deleted_revision_60', 'field_deleted_data_60', 'field_deleted_data_63', 'field_deleted_revision_61', 'field_deleted_data_62', 'field_deleted_data_61', 'field_deleted_data_59', 'field_deleted_revision_59'),
-        ),
+  // 'ssh-options' => "-p 1022 -F %root/scripts/example/conf/ssh/config" . DRUPAL_ROOT,
+  'path-aliases' => array(
+    '%files'   => 'sites/default/files',
+    '%private' => 'sites/default/private/files',
+  ),
+
+  // These options will only be set if the alias is used with the specified command.
+  'command-specific' => array(
+    'sql-sync' => array(
+      'cache' => TRUE,
+      'create-db' => TRUE,
+      'sanitize' => TRUE,
+      'ordered-dump' => FALSE,
+      'structure-tables-key' => 'common',
+      'skip-tables-key' => 'common',
+      'structure-tables' => array(
+        // You can add more tables which contain data to be ignored by the database dump
+        'common' => array('cache', 'cache_filter', 'cache_menu', 'cache_page', 'history', 'search_index', 'sessions', 'watchdog'),
       ),
-      'sql-dump' => array(
-        'ordered-dump' => TRUE,
-        'structure-tables-key' => 'common',
-        'skip-tables-key' => 'common',
+      'skip-tables' => array(
+        'common' => array('field_deleted_revision_63'),
       ),
-      'rsync' => array(
-          'mode' => 'rlptzO', // Single-letter rsync options are placed in the 'mode' key instead of adding '--mode=rultvz' to drush rsync command.
-          'verbose' => TRUE,
-          'no-perms' => TRUE,
-          'exclude' => "'*.gz'", // Wrapping an option's value in "" preserves inner '' on output, but is not always required.
-        # 'exclude-from' => "'/etc/rsync/exclude.rules'", // If you need multiple exludes, use an rsync exclude file.
-          'ssh-options' => '-F config',
-          'filter' => "'exclude *.sql'", // Filter options with white space must be wrapped in "" to preserve the inner ''.
-        # 'filter' => "'merge /etc/rsync/default.rules'", // If you need multple filter options, see rsync merge-file options.
-          ),
-    ), // end: command-specific
-
-    // Applied only if the alias is used as the source.
-    'source-command-specific' => array(
     ),
-
-    // Applied only if the alias is used as the target.
-    'target-command-specific' => array(
+    'sql-dump' => array(
+      'ordered-dump' => TRUE,
+      'structure-tables-key' => 'common',
+      'skip-tables-key' => 'common',
     ),
+    'rsync' => array(
+        'mode' => 'rlptzO', // Single-letter rsync options are placed in the 'mode' key instead of adding '--mode=rultvz' to drush rsync command.
+        'verbose' => TRUE,
+        'no-perms' => TRUE,
+        'exclude' => "'*.gz'", // Wrapping an option's value in "" preserves inner '' on output, but is not always required.
+      # 'exclude-from' => "'/etc/rsync/exclude.rules'", // If you need multiple exludes, use an rsync exclude file.
+      # 'ssh-options' => '-F config',
+        'filter' => "'exclude *.sql'", // Filter options with white space must be wrapped in "" to preserve the inner ''.
+      # 'filter' => "'merge /etc/rsync/default.rules'", // If you need multple filter options, see rsync merge-file options.
+        ),
+  ), // end: command-specific
 
+  // Applied only if the alias is used as the source.
+  'source-command-specific' => array(
+  ),
+
+  // Applied only if the alias is used as the target.
+  'target-command-specific' => array(
+  ),
+
+);
+
+/**
+ * Define common options alias for all development environments.
+ * To use it, add: 'parent' => '@all.dev' to your alias.
+ *
+ */
+$aliases['all.dev'] = array(
+  'variables' => array('mail_system' => array('default-system' => 'DevelMailLog')),
+  'parent' => '@all',
+);
+
+/**
+ * Define common options alias for all testing environments.
+ * To use it, add: 'parent' => '@all.test' to your alias.
+ *
+ */
+$aliases['all.test'] = array(
+  'variables' => array('mail_system' => array('default-system' => 'DevelMailLog')),
+  'parent' => '@all',
+);
+
+/**
+ * Define common options alias for all production environments.
+ * To use it, add: 'parent' => '@all.prod' to your alias.
+ *
+ */
+$aliases['all.prod'] = array(
+  'parent' => '@all',
 );
 
 /**
