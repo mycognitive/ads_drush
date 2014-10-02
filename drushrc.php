@@ -26,6 +26,24 @@
 $options['shell-aliases'] = array(
 
   /*
+   * Build ADS distribution.
+   *
+   */
+  'ads-build' => '!set -x
+    && drush --yes dl ads
+    && phing -f ads-*/build.xml
+    && sed -i".bak" s/notset=/set=/ */build.properties
+    && phing -f */build.xml
+    ',
+
+  /*
+   * Install ADS distribution.
+   *
+   */
+  'ads-install' => '!phing -f ads-*/build.xml ads-install',
+
+
+  /*
    * Enable/disable debugs
    *
    */
@@ -41,38 +59,38 @@ $options['shell-aliases'] = array(
     && drush -y dis example_devel
     ',
 
-    /*
-     * Re-calculate node comment statistics in Drupal 7.
-     * See: https://drupal.org/node/137458#comment-5072066
-     *
-     */
-    'fix-comment-count' => 'sqlq "
-        TRUNCATE TABLE node_comment_statistics;
-        INSERT INTO
-            node_comment_statistics
-        (
-            nid,
-            last_comment_timestamp,
-            last_comment_name,
-            last_comment_uid,
-            comment_count
-        )
-        SELECT
-            n.nid,
-            IFNULL(last_comment.created,n.changed) AS last_comment_timestamp,
-            IFNULL(last_comment.name,null) AS last_comment_name,
-            IFNULL(last_comment.uid,n.uid) AS last_comment_uid,
-            IFNULL(comment_count.comment_count,0) AS comment_count
-        FROM
-            node AS n
-            LEFT OUTER JOIN (SELECT nid, COUNT(*) AS comment_count FROM comment WHERE status=1 GROUP BY nid) AS comment_count ON comment_count.nid=n.nid
-            LEFT OUTER JOIN (SELECT nid, MAX(cid) AS max_cid FROM comment WHERE status=1 GROUP by nid) AS max_node_comment ON max_node_comment.nid=n.nid
-            LEFT OUTER JOIN (SELECT cid,uid,name,created FROM comment ORDER BY cid DESC LIMIT 1) AS last_comment ON last_comment.cid=max_node_comment.max_cid
-        WHERE
-            n.status=1
-        ORDER BY
-            n.nid;
-      "',
+  /*
+   * Re-calculate node comment statistics in Drupal 7.
+   * See: https://drupal.org/node/137458#comment-5072066
+   *
+   */
+  'fix-comment-count' => 'sqlq "
+      TRUNCATE TABLE node_comment_statistics;
+      INSERT INTO
+        node_comment_statistics
+      (
+        nid,
+        last_comment_timestamp,
+        last_comment_name,
+        last_comment_uid,
+        comment_count
+      )
+      SELECT
+        n.nid,
+        IFNULL(last_comment.created,n.changed) AS last_comment_timestamp,
+        IFNULL(last_comment.name,null) AS last_comment_name,
+        IFNULL(last_comment.uid,n.uid) AS last_comment_uid,
+        IFNULL(comment_count.comment_count,0) AS comment_count
+      FROM
+        node AS n
+        LEFT OUTER JOIN (SELECT nid, COUNT(*) AS comment_count FROM comment WHERE status=1 GROUP BY nid) AS comment_count ON comment_count.nid=n.nid
+        LEFT OUTER JOIN (SELECT nid, MAX(cid) AS max_cid FROM comment WHERE status=1 GROUP by nid) AS max_node_comment ON max_node_comment.nid=n.nid
+        LEFT OUTER JOIN (SELECT cid,uid,name,created FROM comment ORDER BY cid DESC LIMIT 1) AS last_comment ON last_comment.cid=max_node_comment.max_cid
+      WHERE
+        n.status=1
+      ORDER BY
+        n.nid;
+    "',
 
   /*
    * Search for broken entity types.
