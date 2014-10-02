@@ -71,7 +71,7 @@ $aliases['all'] = array(
         'no-perms' => TRUE,
         'exclude' => "'*.gz'", // Wrapping an option's value in "" preserves inner '' on output, but is not always required.
       # 'exclude-from' => "'/etc/rsync/exclude.rules'", // If you need multiple exludes, use an rsync exclude file.
-      # 'ssh-options' => '-F config',
+        'ssh-options' => '-v',
         'filter' => "'exclude *.sql'", // Filter options with white space must be wrapped in "" to preserve the inner ''.
       # 'filter' => "'merge /etc/rsync/default.rules'", // If you need multple filter options, see rsync merge-file options.
         ),
