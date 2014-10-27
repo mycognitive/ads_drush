@@ -26,14 +26,20 @@
 $options['shell-aliases'] = array(
 
   /*
+   * Download ADS distribution.
+   *
+   */
+  'ads-dl'     => '!drush dl ads --yes',
+  'ads-dl-dev' => '!drush dl ads --yes --dev',
+
+  /*
    * Build ADS distribution.
    *
    */
   'ads-build' => '!set -x
-    && drush --yes dl ads
-    && phing -f ads-*/build.xml
+    && find . -name build.xml -print -exec phing -f {} \; -quit
     && sed -i".bak" s/notset=/set=/ */build.properties
-    && phing -f */build.xml
+    && find . -name build.xml -print -exec phing -f {} -D out=.. \; -quit
     ',
 
   /*
@@ -170,7 +176,7 @@ $options['structure-tables'] = array(
  * Limitation: If 'verbose' is set in a command-specific option,
  * it must be cleared by '--no-verbose', not '--no-v', and visa-versa.
  */
-$command_specific['rsync']        = array('mode' => 'rlptzO', 'verbose' => TRUE, 'no-perms' => TRUE, 'exclude' => '*.gz');
+$command_specific['rsync']        = array('mode' => 'rlptzO', 'verbose' => TRUE, 'no-perms' => TRUE, 'exclude' => '*.gz', 'exclude-paths' => 'settings.php:settings.local.php');
 $command_specific['archive-dump'] = array('verbose' => TRUE);
 $command_specific['sql-dump']     = array('ordered-dump' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
 $command_specific['sql-sync']     = array('verbose' => TRUE, 'sanitize' => TRUE, 'create-db' => TRUE, 'cache' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
