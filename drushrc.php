@@ -176,7 +176,7 @@ $options['structure-tables'] = array(
  * Limitation: If 'verbose' is set in a command-specific option,
  * it must be cleared by '--no-verbose', not '--no-v', and visa-versa.
  */
-$command_specific['rsync']        = array('mode' => 'rlptzO', 'verbose' => TRUE, 'no-perms' => TRUE, 'exclude' => '*.gz', 'exclude-paths' => 'settings.php:settings.local.php');
+$command_specific['rsync']        = array('mode' => 'rlptzO', 'verbose' => TRUE, 'no-perms' => TRUE, 'exclude-files' => '*.gz', 'exclude-paths' => 'settings.php:settings.local.php');
 $command_specific['archive-dump'] = array('verbose' => TRUE);
 $command_specific['sql-dump']     = array('ordered-dump' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
 $command_specific['sql-sync']     = array('verbose' => TRUE, 'sanitize' => TRUE, 'create-db' => TRUE, 'cache' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');

@@ -69,7 +69,7 @@ $aliases['all'] = array(
         'mode' => 'rlptzO', // Single-letter rsync options are placed in the 'mode' key instead of adding '--mode=rultvz' to drush rsync command.
         'verbose' => TRUE,
         'no-perms' => TRUE,
-        'exclude' => "'*.gz'", // Wrapping an option's value in "" preserves inner '' on output, but is not always required.
+        'exclude-files' => "'*.gz'", // Wrapping an option's value in "" preserves inner '' on output, but is not always required.
       # 'exclude-from' => "'/etc/rsync/exclude.rules'", // If you need multiple exludes, use an rsync exclude file.
         'ssh-options' => '-v',
         'filter' => "'exclude *.sql'", // Filter options with white space must be wrapped in "" to preserve the inner ''.
@@ -114,6 +114,16 @@ $aliases['all.test'] = array(
  */
 $aliases['all.prod'] = array(
   'parent' => '@all',
+
+  // Applied only if the alias is used as the target.
+  'target-command-specific' => array(
+    'sql-sync' => array (
+      'simulate' => '1', // Now you can't use @prod with sql-sync.
+    ),
+    'rsync' => array (
+      'simulate' => '1', // Now you can't use @prod with rsync.
+    ),
+  ),
 );
 
 /**
