@@ -46,10 +46,8 @@ $aliases['all'] = array(
   // These options will only be set if the alias is used with the specified command.
   'command-specific' => array(
     'sql-sync' => array(
-      'cache' => TRUE,
       'create-db' => TRUE,
       'sanitize' => TRUE,
-      'ordered-dump' => FALSE,
       'structure-tables-key' => 'common',
       'skip-tables-key' => 'common',
       'structure-tables' => array(

@@ -47,6 +47,7 @@ $options['shell-aliases'] = array(
    *
    */
   'ads-install' => '!phing -f ads-*/build.xml ads-install',
+  'test-ls-1' => '!ls *',
 
   /*
    * Pull data from remote.
@@ -185,7 +186,7 @@ $options['structure-tables'] = array(
 $command_specific['rsync']        = array('mode' => 'rlptzO', 'verbose' => TRUE, 'no-perms' => TRUE);
 $command_specific['archive-dump'] = array('verbose' => TRUE);
 $command_specific['sql-dump']     = array('ordered-dump' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
-$command_specific['sql-sync']     = array('verbose' => TRUE, 'sanitize' => TRUE, 'create-db' => TRUE, 'cache' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
+$command_specific['sql-sync']     = array('verbose' => TRUE, 'sanitize' => TRUE, 'create-db' => TRUE, 'structure-tables-key' => 'common', 'skip-tables-key' => 'common');
 # $command_specific['sql-sync']['sanitize'] = FALSE; // Disable sanitize option for sql-sync.
 
 // Always show release notes when running pm-update or pm-updatecode
