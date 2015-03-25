@@ -32,7 +32,6 @@
 
 /**
  * Define global common options alias for all environments.
- * To use it, add: 'parent' => '@global' to your alias.
  *
  */
 $aliases['all'] = array(
@@ -87,31 +86,25 @@ $aliases['all'] = array(
 
 /**
  * Define common options alias for all development environments.
- * To use it, add: 'parent' => '@all.dev' to your alias.
  *
  */
 $aliases['all.dev'] = array(
   'variables' => array('mail_system' => array('default-system' => 'DevelMailLog')),
-  'parent' => '@all',
-);
+) + $aliases['all'];
 
 /**
  * Define common options alias for all testing environments.
- * To use it, add: 'parent' => '@all.test' to your alias.
  *
  */
 $aliases['all.test'] = array(
   'variables' => array('mail_system' => array('default-system' => 'DevelMailLog')),
-  'parent' => '@all',
-);
+) + $aliases['all'];
 
 /**
  * Define common options alias for all production environments.
- * To use it, add: 'parent' => '@all.prod' to your alias.
  *
  */
 $aliases['all.prod'] = array(
-  'parent' => '@all',
 
   // Applied only if the alias is used as the target.
   'target-command-specific' => array(
@@ -122,13 +115,12 @@ $aliases['all.prod'] = array(
       'simulate' => '1', // Now you can't use @prod with rsync.
     ),
   ),
-);
+) + $aliases['all'];
 
 /**
  * Example alias for development environment.
  *
  */
 # $aliases['dev'] = array(
-#   'parent' => '@global',
-# );
+# ) + $aliases['all'];
 
