@@ -73,31 +73,42 @@ function drush_policy_cache_clear_validate() {
 function drush_policy_post_cache_clear($type) {
   if ($type == 'all'):
 
+  try {
     // Flush all cache from Memcache/Memcached.
     // See: https://www.drupal.org/node/2309657
-    module_exists('memcache') &&
+    if (module_exists('memcache')) {
       memcache_invalidate_cache();
+    }
 
     // Flush all temporary cache from Varnish if used.
     // See: https://www.drupal.org/node/2309663
-    module_exists('varnish') &&
+    if (module_exists('varnish')) {
       varnish_purge_all_pages();
+    }
 
     // Clear PHP OPCache cache if used.
-    function_exists('opcache_reset') &&
+    if (function_exists('opcache_reset')) {
       opcache_reset();
+    }
 
     // Clear PHP XCache cache if used.
-    function_exists('xcache_clear_cache') &&
+    if (function_exists('xcache_clear_cache')) {
       xcache_clear_cache();
+    }
 
     // Clear PHP eAccelerator cache if used.
-    function_exists('accelerator_reset') &&
-      accelerator_reset();
+    if (function_exists('eaccelerator_clear')) {
+      eaccelerator_clear();
+    }
 
     // Clear PHP APC cache if used.
-    function_exists('apc_clear_cache') &&
+    if (function_exists('apc_clear_cache')) {
       apc_clear_cache();
+    }
+  }
+  catch (Exception $e) {
+    throw new Exception(t('Failed to clear the cache. Error: %e', array('%e' => print_r($e, TRUE))));
+  }
 
   endif;
 }
